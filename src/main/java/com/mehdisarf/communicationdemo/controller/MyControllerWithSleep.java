@@ -10,27 +10,30 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 @RestController
-public class MyController {
+public class MyControllerWithSleep {
 
-    @GetMapping("/persons")
-    public List<Person> getAllPerson() {
+    @GetMapping("/sleeppersons")
+    public List<Person> getAllPerson() throws InterruptedException {
+        Thread.sleep(5000);
         List<Person> people = new ArrayList<>();
         people.add(new Person("mehdi", "sarf"));
         people.add(new Person("akbar", "aliani"));
         return people;
     }
 
-    @PostMapping("/persons")
-    public ResponseEntity<Person> addPerson(@RequestBody Person person) {
+    @PostMapping("/sleeppersons")
+    public ResponseEntity<Person> addPerson(@RequestBody Person person) throws InterruptedException {
+        Thread.sleep(5000);
         person.setId(ThreadLocalRandom.current().nextLong(1, 1000));
         System.out.println(person + " : Is Saved.");
-
         return ResponseEntity
                 .status(HttpStatus.ACCEPTED)
                 .body(person);
     }
 }
+
+
+
