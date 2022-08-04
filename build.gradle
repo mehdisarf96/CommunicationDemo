@@ -8,6 +8,8 @@ group = 'com.mehdisarf'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '8'
 
+sourceSets.main.output.resourcesDir = sourceSets.main.java.outputDir
+
 repositories {
     maven { url 'https://repo.spring.io/release' }
     mavenCentral()
@@ -18,6 +20,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-hateoas'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'org.hibernate:hibernate-entitymanager:5.4.9.Final'
+    implementation 'org.mariadb.jdbc:mariadb-java-client:2.1.2'
+
 }
 
 tasks.named('test') {
