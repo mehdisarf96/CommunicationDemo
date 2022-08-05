@@ -3,22 +3,23 @@ package com.mehdisarf.communicationdemo.dao;
 import com.mehdisarf.communicationdemo.entities.Person;
 import com.mehdisarf.communicationdemo.util.PersistenceUtil;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ContextConfiguration;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@ExtendWith(MockitoExtension.class)
 class PersonDAOImplTest {
 
-    private PersonDAOImpl pDao = new PersonDAOImpl();
-
+    //@Autowired kar nemikne. bayad mock koni.
+    @Mock
+    private PersonDAOImpl pDao;
     private static EntityManagerFactory emf = PersistenceUtil.getInstance().getEntityManagerFactory();
 
     @Test
@@ -58,6 +59,27 @@ class PersonDAOImplTest {
         insertSomeRow();
         pDao.delete(1);
         assertEquals(pDao.getAll().size(), 1);
+    }
+
+    @Test
+    void testEffectOfUsingCacheForGet() {
+        long id = 1L;
+
+        long start = System.currentTimeMillis();
+        pDao.get(id); // first hit
+        long stop = System.currentTimeMillis();
+
+        long firstTryDuration = stop - start;
+
+        start = System.currentTimeMillis();
+        pDao.get(id); // second hit
+        stop = System.currentTimeMillis();
+
+        long secondTryDuration = stop - start;
+
+        System.out.println(firstTryDuration);
+        System.out.println(secondTryDuration);
+        assertTrue(secondTryDuration < firstTryDuration);
     }
 
     public static void insertSomeRow() {
