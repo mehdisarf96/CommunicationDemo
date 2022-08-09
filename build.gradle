@@ -1,17 +1,16 @@
 plugins {
-    id 'org.springframework.boot' version '2.7.2'
-    id 'io.spring.dependency-management' version '1.0.12.RELEASE'
-    id 'java'
+	id 'org.springframework.boot' version '2.7.2'
+	id 'io.spring.dependency-management' version '1.0.12.RELEASE'
+	id 'java'
 }
 
 group = 'com.mehdisarf'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '8'
+sourceCompatibility = '1.8'
 
 sourceSets.main.output.resourcesDir = sourceSets.main.java.outputDir
 
 repositories {
-    maven { url 'https://repo.spring.io/release' }
     mavenCentral()
 }
 
@@ -24,11 +23,13 @@ dependencies {
     implementation 'org.mariadb.jdbc:mariadb-java-client:2.1.2'
     implementation 'redis.clients:jedis:4.2.3'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.3'
-
+    implementation 'org.springframework.boot:spring-boot-starter-actuator:2.7.2'
+    implementation 'org.springframework.boot:spring-boot-starter-security:2.7.2'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.3'
 }
 
 tasks.named('test') {
-    useJUnitPlatform()
+	useJUnitPlatform()
 }
 
 tasks.named('bootBuildImage') {
